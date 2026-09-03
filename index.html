@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Embodied AI Scientist · 具身智能科学家</title>
-    <link rel="stylesheet" href="./styles.css?v=flowpilot-20260903p" />
+    <link rel="stylesheet" href="./styles.css?v=flowpilot-20260903q" />
   </head>
   <body>
     <header class="landing-hero" id="home">
@@ -166,16 +166,14 @@
           <section class="panel">
             <div class="panel-head">
               <div>
-                <p class="eyebrow">MuJoCo Demo · Training-Free Evaluation</p>
                 <h3>实验方案与结果</h3>
               </div>
               <span class="pill blue">MuJoCo 可执行方案</span>
             </div>
             <div id="experimentOutput" class="plan-grid">
               <article class="plan-card wide project-overview-card">
-                <p class="eyebrow">Visual2Action Bridge · Project Overview</p>
                 <h4>项目目的与基本结构</h4>
-                <p><strong>项目目的：</strong>在不进行模型训练的条件下，验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
+                <p><strong>项目目的：</strong>验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
                 <ol>
                   <li><strong>视觉感知层：</strong>读取 RGB、深度与分割观测，恢复目标的三维位置及其与机械臂末端的相对关系。</li>
                   <li><strong>Visual2Action Bridge 层：</strong>将视觉信息拆分为平移、姿态和夹爪动作分量，并通过限幅与平滑生成连续控制目标。</li>
@@ -195,6 +193,6 @@
       </main>
     </div>
     <div id="toastRegion" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
-    <script src="./app.js?v=flowpilot-20260903p"></script>
+    <script src="./app.js?v=flowpilot-20260903q"></script>
   </body>
 </html>

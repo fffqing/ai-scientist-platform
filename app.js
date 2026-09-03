@@ -481,9 +481,7 @@ function renderIterationHistory() {
   const currentHumanIdea = state.humanIdeas[state.iterationRound];
   return `
     <header class="result-section-head wide iteration-section-head">
-      <p class="eyebrow">Human × Qwen3.7-Plus Research Iteration</p>
-      <h4>实验反馈驱动的方案迭代</h4>
-      <p>实验模块提供指标与视频证据；本模块由研究者提出判断，再由 Qwen3.7-Plus 基于本轮证据给出可检验的改进建议。</p>
+      <h4>根据仿真实验结果，请研究者先提出个人想法<br />再由 Qwen3.7-Plus 基于本轮结果给出改进建议和下一轮实验方案</h4>
     </header>
     ${state.roundResults.slice(0, state.iterationRound).map((round) => `
       <article class="plan-card wide iteration-card ${round.round === state.iterationRound ? "current" : "done"}">
@@ -500,11 +498,10 @@ function renderIterationHistory() {
       </article>
     `).join("")}
     <article class="plan-card wide iteration-collaboration-card">
-      <p class="eyebrow">ROUND ${currentRound.round} · Evidence-to-Decision</p>
       <h4>人的主动思考 × Qwen3.7-Plus 改进建议</h4>
       <p>请结合本轮指标与视频观察，写下你认为最值得验证的现象解释或改进方向。</p>
       <label class="human-thinking-label" for="humanIdeaInput">研究者观察与想法</label>
-      <textarea id="humanIdeaInput" rows="4" placeholder="例如：目标接近阶段的过冲比定位误差更关键，下一轮应只改变近距离增益并保持其他变量不变。">${escapeHtml(currentHumanIdea || "")}</textarea>
+      <textarea id="humanIdeaInput" rows="4">${escapeHtml(currentHumanIdea || "")}</textarea>
       <div class="iteration-action-row">
         <button id="generateSuggestionBtn" class="secondary-action" type="button">提交人的思考并生成 Qwen3.7-Plus 建议</button>
         <button id="nextIterationBtn" class="primary-action" type="button" ${currentSuggestion ? "" : "disabled"}>进行下一轮迭代</button>
@@ -514,7 +511,7 @@ function renderIterationHistory() {
           <span>Qwen3.7-Plus · 基于指标、视频与人的想法</span>
           <h5>第 ${currentRound.round} 轮改进建议</h5>
           <p>${escapeHtml(currentSuggestion)}</p>
-          <small>${currentRound.round < 3 ? "确认后仅将这一项改动带入下一轮，其余实验条件保持一致。" : "当前研判已完成，可生成完整报告或继续扩大条件覆盖。"}</small>
+          ${currentRound.round === 3 ? "<small>当前研判已完成，可生成完整报告或继续扩大条件覆盖。</small>" : ""}
         </section>
       ` : ""}
     </article>
@@ -605,16 +602,14 @@ function renderExperiment() {
     : "<p>未提供</p>";
   const initialPlan = currentRound.round === 1 ? `
     <article class="plan-card wide project-overview-card">
-      <p class="eyebrow">Visual2Action Bridge · Project Overview</p>
       <h4>项目目的与基本结构</h4>
-      <p><strong>项目目的：</strong>在不进行模型训练的条件下，验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
+      <p><strong>项目目的：</strong>验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
       <ol>
         <li><strong>视觉感知层：</strong>读取 RGB、深度与分割观测，恢复目标的三维位置及其与机械臂末端的相对关系。</li>
         <li><strong>Visual2Action Bridge 层：</strong>将视觉信息拆分为平移、姿态和夹爪动作分量，并通过限幅与平滑生成连续控制目标。</li>
         <li><strong>控制与评估层：</strong>使用逆运动学和 MuJoCo 位置控制器执行动作，记录成功率、终点误差、动作平滑度与单步耗时。</li>
       </ol>
     </article>
-    <article class="plan-card wide"><h4>已选方向</h4><p>${escapeHtml(pending.proposal.name)}</p></article>
     <article class="plan-card"><h4>实验目标</h4><p>${escapeHtml(plan.objective)}</p></article>
     <article class="plan-card"><h4>实验环境</h4><p>${escapeHtml(plan.environment)}</p></article>
     <article class="plan-card"><h4>评价指标</h4>${list(plan.metrics)}</article>
@@ -622,7 +617,6 @@ function renderExperiment() {
     <article class="plan-card wide"><h4>实验步骤</h4>${list(plan.procedure)}</article>
   ` : `
     <header class="result-section-head wide experiment-round-head focused-round-head">
-      <p class="eyebrow">Revised Experiment Plan</p>
       <h4>第 ${currentRound.round} 轮实验方案改进</h4>
       <p>以下内容仅呈现由上一阶段观察和人机协同建议产生的方案变化。</p>
     </header>
@@ -637,7 +631,6 @@ function renderExperiment() {
   `;
   const experimentState = resultsReady ? `
     <header class="result-section-head wide experiment-round-head">
-      <p class="eyebrow">Iteration ${currentRound.round} / 3 · MuJoCo Evaluation</p>
       <h4>第 ${currentRound.round} 轮 · ${escapeHtml(currentRound.title)}</h4>
       <p>当前状态：${escapeHtml(currentRound.status)}。指标存在回合波动，方案迭代将结合统计结果、视频现象与研究者判断进行归因。</p>
     </header>
@@ -648,8 +641,7 @@ function renderExperiment() {
       <p><strong>下一步决策：</strong>转入“方案迭代”，由研究者先提出判断，再由 Qwen3.7-Plus 给出针对性建议。</p>
     </article>
     <article class="plan-card wide video-evidence-card">
-      <p class="eyebrow">Simulation Video Evidence</p>
-      <h4>第 ${currentRound.round} 轮代表性实验视频</h4>
+      <h4>第 ${currentRound.round} 轮实验视频</h4>
       ${renderVideoGallery(currentRound)}
     </article>
     <article class="plan-card wide round-action-card">
@@ -661,7 +653,6 @@ function renderExperiment() {
     <div id="roundReportOutput" class="wide">${state.displayedReportRound === currentRound.round ? renderResearchReport(currentRound.round) : ""}</div>
   ` : `
     <article class="plan-card wide experiment-launch-card">
-      <p class="eyebrow">Experiment Execution</p>
       <h4>${state.experimentRunning ? `第 ${currentRound.round} 轮实验运行中` : "实验方案已就绪"}</h4>
       ${state.experimentRunning ? `
         <div class="experiment-progress" role="status" aria-live="polite"><i></i><span>正在执行实验并汇总指标，请稍候…</span></div>
@@ -977,9 +968,8 @@ function resetDemo() {
   qs("#reviseRoundBtn").hidden = true;
   qs("#experimentOutput").innerHTML = `
     <article class="plan-card wide project-overview-card">
-      <p class="eyebrow">Visual2Action Bridge · Project Overview</p>
       <h4>项目目的与基本结构</h4>
-      <p><strong>项目目的：</strong>在不进行模型训练的条件下，验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
+      <p><strong>项目目的：</strong>验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
       <ol>
         <li><strong>视觉感知层：</strong>读取 RGB、深度与分割观测，恢复目标的三维位置及其与机械臂末端的相对关系。</li>
         <li><strong>Visual2Action Bridge 层：</strong>将视觉信息拆分为平移、姿态和夹爪动作分量，并通过限幅与平滑生成连续控制目标。</li>
