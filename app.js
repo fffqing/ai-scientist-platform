@@ -427,10 +427,6 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomFixed(min, max, digits = 1) {
-  return (min + Math.random() * (max - min)).toFixed(digits);
-}
-
 function createDemoRoundResults() {
   const failures = shuffle(failVideos);
   const successes = shuffle(successVideos);
@@ -439,10 +435,10 @@ function createDemoRoundResults() {
     [failures[3], ...successes.slice(0, 2)],
     [...successes.slice(2), thirdRoundExtraVideo],
   ];
-  const ranges = [
-    { wins: [7, 11], error: [4.0, 5.4], smoothness: [0.42, 0.55], latency: [3.8, 4.6] },
-    { wins: [12, 16], error: [2.3, 3.5], smoothness: [0.28, 0.39], latency: [4.7, 5.6] },
-    { wins: [16, 19], error: [1.0, 2.0], smoothness: [0.18, 0.27], latency: [5.4, 6.4] },
+  const fixedMetrics = [
+    { success: "13/20（65%）", error: "2.8 cm", smoothness: "0.41", latency: "3.7 ms" },
+    { success: "16/20（80%）", error: "1.9 cm", smoothness: "0.31", latency: "4.4 ms" },
+    { success: "17/20（85%）", error: "1.5 cm", smoothness: "0.24", latency: "5.2 ms" },
   ];
   const diagnoses = [
     [
@@ -459,18 +455,11 @@ function createDemoRoundResults() {
     ],
   ];
   return demoIterationRounds.map((template, index) => {
-    const range = ranges[index];
-    const wins = randomInt(...range.wins);
     return {
       ...template,
       status: "结果已记录",
       diagnosis: diagnoses[index][randomInt(0, diagnoses[index].length - 1)],
-      metrics: {
-        success: `${wins}/20（${wins * 5}%）`,
-        error: `${randomFixed(...range.error)} cm`,
-        smoothness: randomFixed(...range.smoothness, 2),
-        latency: `${randomFixed(...range.latency)} ms`,
-      },
+      metrics: fixedMetrics[index],
       videos: allocations[index],
     };
   });
