@@ -21,6 +21,12 @@ const state = {
   experimentTimer: null,
 };
 
+const EXPERIMENT_RESULT_DELAYS_MS = Object.freeze({
+  1: 3200,
+  2: 3600,
+  3: 4000,
+});
+
 const apiOrigin = window.location.protocol === "file:" ? "http://127.0.0.1:8086" : "";
 
 const loopSteps = [
@@ -699,6 +705,7 @@ function renderExperiment() {
 
 function beginExperimentRound() {
   const roundNumber = state.iterationRound;
+  const resultDelay = EXPERIMENT_RESULT_DELAYS_MS[roundNumber] ?? 3600;
   if (state.experimentRunning || state.resultsRevealed[roundNumber]) return;
   state.experimentRunning = true;
   renderExperiment();
@@ -711,7 +718,7 @@ function beginExperimentRound() {
     renderExperiment();
     renderVersions();
     showToast(`第 ${roundNumber} 轮实验结果已生成`);
-  }, 1000);
+  }, resultDelay);
 }
 
 function openIterationWorkspace() {
