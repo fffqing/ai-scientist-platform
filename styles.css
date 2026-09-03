@@ -1166,7 +1166,8 @@ textarea:focus-visible {
 
 .fixed-track > span {
   color: #e2e0dc;
-  font-size: 13px;
+  font-size: 17px;
+  font-weight: 800;
 }
 
 .fixed-track strong {
@@ -1191,6 +1192,16 @@ label {
   color: #e2e0dc;
   font-size: 13px;
   letter-spacing: 0.02em;
+}
+
+.input-panel label {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+#problemInput,
+#confirmProblemBtn {
+  font-size: 20px;
 }
 
 select,
