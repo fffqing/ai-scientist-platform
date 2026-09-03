@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Embodied AI Scientist · 具身智能科学家</title>
+    <link rel="stylesheet" href="./styles.css?v=flowpilot-20260903l" />
+  </head>
+  <body>
+    <header class="landing-hero" id="home">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-badges" aria-label="平台标签">
+        <span>多智能体</span>
+        <span>具身仿真环境</span>
+        <strong>ACL 2026 · 2篇论文</strong>
+      </div>
+      <div class="hero-copy">
+        <p class="hero-title"><span>Embodied AI</span><span>Scientist</span><b>具身智能科学家</b></p>
+        <div class="powered-by" aria-label="Powered by Qwen3.7-Plus">
+          <small>POWERED BY</small>
+          <img class="qwen-mark" src="./assets/qwen-color.png" alt="Qwen" width="61" height="61" />
+          <strong>Qwen3.7-Plus</strong>
+        </div>
+      </div>
+      <div class="hero-robot" role="img" aria-label="机械手与具身智能实验视觉"></div>
+    </header>
+
+    <section class="workflow-band" aria-labelledby="workflowTitle">
+      <p id="workflowTitle">从生成科学 ideas，到虚拟实验闭环</p>
+      <div class="workflow-rail">
+        <article><b>1.</b><span>定义具身<br />研究方向</span></article>
+        <article><b>2.</b><span>Sciverse检索<br />与证据筛选</span></article>
+        <article><b>3.</b><span>融合2篇ACL论文<br />生成科学想法</span></article>
+        <article><b>4.</b><span>明确研究问题<br />设计实验方案</span></article>
+        <article><b>5.</b><span>运行仿真实验<br />记录验证结果</span></article>
+        <article><b>6.</b><span>依据实验结果<br />迭代下一轮计划</span></article>
+      </div>
+      <button id="heroStartBtn" class="hero-start" type="button">开始研究吧！</button>
+    </section>
+
+    <div class="app-shell" id="workspace">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">AI</div>
+          <div>
+            <p class="eyebrow">Powered by Qwen3.7-Plus</p>
+            <h1>Embodied AI Scientist</h1>
+          </div>
+        </div>
+        <nav class="nav-list" aria-label="主导航">
+          <button class="nav-item active" data-view="loop"><span>↻</span><b>闭环工作台</b></button>
+          <button class="nav-item" data-view="evidence"><span>⌕</span><b>证据溯源</b></button>
+          <button class="nav-item" data-view="versions"><span>⇅</span><b>方案迭代</b></button>
+          <button class="nav-item" data-view="compliance"><span>✓</span><b>实验方案与结果</b></button>
+        </nav>
+        <div class="side-note">
+          <p>具身智能科学家</p>
+          <strong>从可追溯文献证据，<br />到虚拟实验反馈闭环</strong>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Embodied Research Loop · Sciverse → Simulation</p>
+            <h2>从科学问题、证据推理到候选方向与实验方案</h2>
+          </div>
+          <div class="actions">
+            <button id="exportBtn" class="icon-button" title="导出方案">⇩</button>
+            <button id="resetBtn" class="icon-button" title="重置演示">↺</button>
+          </div>
+        </header>
+
+        <section id="loop" class="view active">
+          <div class="workspace-grid">
+            <section class="panel input-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Problem & Constraints</p>
+                  <h3>具身科研目标输入</h3>
+                </div>
+                <span class="pill amber">ACL 2026 +2</span>
+              </div>
+              <div class="fixed-track" aria-label="选题维度 B：具身实验任务规划与反馈迭代">
+                <span>选题维度</span>
+                <strong><b>B.</b> 具身实验任务规划与反馈迭代</strong>
+              </div>
+              <label>
+                科学问题
+                <textarea id="problemInput" rows="5">具身VLA模型的视觉问题研究</textarea>
+              </label>
+              <button id="confirmProblemBtn" class="primary-action" type="button">确定研究问题</button>
+              <div id="researchFollowup" class="research-followup" hidden>
+                <div class="evidence-source-field">
+                  <span class="field-label-row">
+                    <b>调用 Sciverse 获取证据包</b>
+                    <button id="viewEvidenceBtn" class="text-link-button" type="button">证据溯源 →</button>
+                  </span>
+                  <textarea id="evidenceInput" rows="5" aria-label="Sciverse 证据包摘要" readonly>Sciverse 证据包共 27 条；重点关注视觉泛化、视觉表征到动作控制的信息瓶颈，以及高维视觉输入的实时推理开销。完整证据包将提交给 Qwen3.7-Plus。</textarea>
+                </div>
+                <label>
+                  实验约束
+                  <textarea id="constraintInput" rows="4">候选方向必须可证伪、可在具身环境执行，并区分文献事实、模型推断、实验结果与人工判断。</textarea>
+                </label>
+                <button id="runLoopBtn" class="primary-action">查看 Qwen3.7-Plus 生成结果</button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                <p class="eyebrow">Closed Loop</p>
+                  <h3>虚拟实验任务闭环</h3>
+                </div>
+              </div>
+              <div class="loop-track" id="loopTrack"></div>
+            </section>
+          </div>
+
+          <section class="panel output-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Research Plan Output</p>
+                <h3>科研推理方法与候选方案</h3>
+              </div>
+              <div class="output-actions">
+                <span class="pill blue">录用ACL论文介绍</span>
+              </div>
+            </div>
+            <section class="method-intro-grid" aria-label="科研方法介绍">
+              <article class="method-intro-card">
+                <span>科学研究想法生成</span>
+                <h4><a href="https://aclanthology.org/2026.acl-long.1609.pdf" target="_blank" rel="noreferrer"><strong>MoRI: Learning Motivation-Grounded Reasoning for Scientific Ideation in Large Language Models</strong></a></h4>
+                <p>MoRI 面向大语言模型科学研究想法生成，构建“研究背景—研究动机—推理轨迹—研究方法”的动机驱动推理框架。模型结合监督微调与强化学习，通过 EAIG 和 CSG 奖励分别约束技术深度与语义方向，从而提升研究方案的创新性、严谨性与可行性。</p>
+              </article>
+              <article class="method-intro-card">
+                <span>科研方案比较与排序</span>
+                <h4><a href="https://aclanthology.org/2026.findings-acl.1195.pdf" target="_blank" rel="noreferrer"><strong>CNPE: From Isolated Scoring to Collaborative Ranking: A Comparison-Native Framework for LLM-Based Paper Evaluation</strong></a></h4>
+                <p>CNPE 面向大语言模型科研评价，将传统单篇论文绝对评分转化为成对比较与全局排序。框架通过图结构采样构建高质量论文对，并结合监督微调、强化学习和 Bradley–Terry 模型聚合相对偏好，实现更稳定、可迁移的论文质量判断与排名。</p>
+              </article>
+            </section>
+          </section>
+        </section>
+
+        <section id="evidence" class="view">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Traceable Evidence</p>
+                <h3>Sciverse 证据溯源</h3>
+              </div>
+              <span class="pill blue">共 27 条 · 展示 4 条</span>
+            </div>
+            <div class="evidence-grid" id="evidenceGrid"></div>
+          </section>
+        </section>
+
+        <section id="versions" class="view">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">MoRI · CNPE Research Iteration</p>
+                <h3>方案迭代</h3>
+              </div>
+              <div class="output-actions">
+                <button id="compareBtn" class="secondary-action">刷新方案</button>
+              </div>
+            </div>
+            <div id="planOutput" class="plan-grid"></div>
+          </section>
+        </section>
+
+        <section id="compliance" class="view">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">MuJoCo Demo · Training-Free Evaluation</p>
+                <h3>实验方案与结果</h3>
+              </div>
+              <span class="pill blue">MuJoCo 可执行方案</span>
+            </div>
+            <div id="experimentOutput" class="plan-grid">
+              <article class="plan-card wide project-overview-card">
+                <p class="eyebrow">Visual2Action Bridge · Project Overview</p>
+                <h4>项目目的与基本结构</h4>
+                <p><strong>项目目的：</strong>在不进行模型训练的条件下，验证视觉观测经过结构化桥接后能否更稳定地转化为连续机械臂动作，并以可复现的 MuJoCo 对照实验评估其有效性。</p>
+                <ol>
+                  <li><strong>视觉感知层：</strong>读取 RGB、深度与分割观测，恢复目标的三维位置及其与机械臂末端的相对关系。</li>
+                  <li><strong>Visual2Action Bridge 层：</strong>将视觉信息拆分为平移、姿态和夹爪动作分量，并通过限幅与平滑生成连续控制目标。</li>
+                  <li><strong>控制与评估层：</strong>使用逆运动学和 MuJoCo 位置控制器执行动作，记录成功率、终点误差、动作平滑度与单步耗时。</li>
+                </ol>
+              </article>
+            </div>
+            <section id="humanFeedbackPanel" class="human-feedback" hidden>
+              <label>
+                人工观察与修改意见
+                <textarea id="humanFeedbackInput" rows="4" placeholder="结合实验结果，写下失败原因、异常现象或下一轮应优先修改的内容。"></textarea>
+              </label>
+              <button id="reviseRoundBtn" class="primary-action" type="button" hidden>提交反馈并生成下一轮计划与总结报告</button>
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+    <div id="toastRegion" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script src="./app.js?v=flowpilot-20260903l"></script>
+  </body>
+</html>

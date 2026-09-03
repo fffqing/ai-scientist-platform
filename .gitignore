@@ -1,0 +1,11 @@
+.env
+.env.*
+.dev.vars
+.wrangler/
+node_modules/
+_site/
+
+# Local-only development and backend files are excluded from the public Pages repository.
+server.mjs
+tests/
+README.md
