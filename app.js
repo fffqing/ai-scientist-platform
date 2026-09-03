@@ -530,37 +530,17 @@ function renderCandidates() {
   }
   qs("#planOutput").innerHTML = `
     <header class="result-section-head wide">
-      <p class="eyebrow">Qwen3.7-Plus · MoRI</p>
-      <h4>根据 27 条证据生成 10 条科学研究想法</h4>
+      <h4>根据 Sciverse 文献以及 MoRI 思想，调用 Qwen3.7-Plus 生成更细致的科学研究想法</h4>
     </header>
-    <article class="plan-card wide motivation-card">
-      <p class="eyebrow">Qwen 生成 · MoRI</p>
-      <h4>科学想法生成依据</h4>
-      <p>根据研究背景与研究动机，基于Qwen推导出科学想法。</p>
-    </article>
     ${state.proposals.map((item) => `
         <article class="plan-card candidate-card idea-card">
           <div class="idea-heading">
-            <span>Qwen 生成 · ${escapeHtml(item.id)}</span>
             <strong>${escapeHtml(item.name)}</strong>
           </div>
-          <details>
-            <summary>查看6个因素方案</summary>
-            <dl class="proposal-fields">
-              <dt>Problem</dt><dd>${escapeHtml(item.problem)}</dd>
-              <dt>Motivation</dt><dd>${escapeHtml(item.motivation)}</dd>
-              <dt>Hypothesis</dt><dd>${escapeHtml(item.hypothesis)}</dd>
-              <dt>Method</dt><dd>${escapeHtml(item.method)}</dd>
-              <dt>Experiment</dt><dd>${escapeHtml(item.experiment)}</dd>
-              <dt>Expected Contribution</dt><dd>${escapeHtml(item.expectedContribution)}</dd>
-            </dl>
-          </details>
         </article>
     `).join("")}
     <header class="result-section-head wide cnpe-section-head">
-      <p class="eyebrow">Qwen3.7-Plus · CNPE Pairwise Comparison</p>
-      <h4>CNPE 两两比较 · Top-3 智选推荐</h4>
-      <p>将 10 个方案统一为 Problem / Motivation / Hypothesis / Method / Experiment / Expected Contribution 6个因素，已完成 ${escapeHtml(state.comparisons.length)} 组 pairwise comparison，再由用户确认研究方向。</p>
+      <h4>根据 CNPE 两两比较想法 · 调用 Qwen3.7-Plus 生成 Top-3 智选推荐</h4>
     </header>
     ${state.top3.map((ranking) => {
       const item = state.proposals.find((proposal) => proposal.name === ranking.name);
