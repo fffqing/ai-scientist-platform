@@ -30,11 +30,11 @@ const EXPERIMENT_RESULT_DELAYS_MS = Object.freeze({
 const apiOrigin = window.location.protocol === "file:" ? "http://127.0.0.1:8086" : "";
 
 const loopSteps = [
-  ["定义视觉研究问题", "明确 VLA 视觉瓶颈、实验对象与可证伪目标", "Problem"],
-  ["Sciverse 证据筛选", "读取完整证据包并呈现四条关键研究依据", "Evidence"],
-  ["MoRI 候选生成", "Qwen3.7-Plus 先推导 Motivation，再生成十个包含6个因素的方案", "MoRI"],
-  ["CNPE 智选与选题", "成对比较相近方案，由用户确认研究方向", "CNPE"],
-  ["具身实验设计", "Qwen 为选定方向生成指标明确的可执行方案", "Experiment"],
+  ["确定研究问题", "选择大范围的研究方向", "Problem"],
+  ["Sciverse 智能数据库检索", "调用检索证据包，呈现关键数据", "Evidence"],
+  ["依托 MoRI 论文生成多条科学想法", "将证据包传入 Qwen3.7-Plus，由 Context 与 Motivation 驱动想法生成", "MoRI"],
+  ["依托 CNPE 论文智选最佳研究方向", "成对比较相近方案，由用户确认研究方向", "CNPE"],
+  ["MuJoCo 仿真环境实验设计", "Qwen 为选定方向生成指标明确的可执行方案", "Experiment"],
   ["反馈迭代与总结", "实验反馈驱动下一轮计划与科研表达", "Feedback"],
 ];
 

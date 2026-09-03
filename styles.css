@@ -1251,12 +1251,10 @@ textarea:focus {
 }
 
 .loop-step b {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border: 1px solid #9bf0e1;
   color: #9bf0e1;
+  font-size: 22px;
+  line-height: 1;
+  text-align: center;
 }
 
 .loop-step strong {
