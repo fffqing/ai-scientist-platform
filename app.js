@@ -16,9 +16,11 @@ const state = {
   humanIdeas: {},
   qwenSuggestions: {},
   displayedReportRound: 0,
+  reportGeneratingRound: 0,
   resultsRevealed: {},
   experimentRunning: false,
   experimentTimer: null,
+  reportTimer: null,
 };
 
 const EXPERIMENT_RESULT_DELAYS_MS = Object.freeze({
@@ -597,6 +599,7 @@ function renderExperiment() {
   const plan = pending.experimentPlan || {};
   const currentRound = state.roundResults[Math.max(0, state.iterationRound - 1)];
   const resultsReady = Boolean(state.resultsRevealed[currentRound.round]);
+  const reportGenerating = state.reportGeneratingRound === currentRound.round;
   const list = (items) => Array.isArray(items) && items.length
     ? `<ul>${items.map((item) => `<li>${escapeHtml(typeof item === "object" ? JSON.stringify(item) : item)}</li>`).join("")}</ul>`
     : "<p>未提供</p>";
@@ -647,10 +650,14 @@ function renderExperiment() {
     <article class="plan-card wide round-action-card">
       <div class="experiment-action-row">
         <button id="goIterationBtn" class="primary-action" type="button">进行下一轮迭代</button>
-        <button id="generateRoundReportBtn" class="secondary-action" type="button">生成报告</button>
+        <button id="generateRoundReportBtn" class="secondary-action" type="button" ${reportGenerating ? "disabled" : ""}>${reportGenerating ? "报告生成中…" : "生成报告"}</button>
       </div>
     </article>
-    <div id="roundReportOutput" class="wide">${state.displayedReportRound === currentRound.round ? renderResearchReport(currentRound.round) : ""}</div>
+    <div id="roundReportOutput" class="wide">${reportGenerating ? `
+      <article class="plan-card wide experiment-launch-card">
+        <div class="experiment-progress" role="status" aria-live="polite"><i></i><span>正在整理研究过程并生成报告，请稍候…</span></div>
+      </article>
+    ` : state.displayedReportRound === currentRound.round ? renderResearchReport(currentRound.round) : ""}</div>
   ` : `
     <article class="plan-card wide experiment-launch-card">
       <h4>${state.experimentRunning ? `第 ${currentRound.round} 轮实验运行中` : "实验方案已就绪"}</h4>
@@ -768,12 +775,25 @@ function renderResearchReport(roundNumber) {
 }
 
 function generateRoundReport() {
-  state.displayedReportRound = state.iterationRound;
-  state.finalReportReady = state.iterationRound === 3;
+  const roundNumber = state.iterationRound;
+  if (state.reportGeneratingRound) return;
+  state.reportGeneratingRound = roundNumber;
+  state.displayedReportRound = 0;
   renderExperiment();
-  renderVersions();
+  showToast(`第 ${roundNumber} 轮研究过程报告正在生成`);
   qs("#roundReportOutput")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  showToast(state.finalReportReady ? "详细研究过程报告已生成" : `第 ${state.iterationRound} 轮研究过程报告已生成`);
+  if (state.reportTimer) window.clearTimeout(state.reportTimer);
+  state.reportTimer = window.setTimeout(() => {
+    state.reportTimer = null;
+    state.reportGeneratingRound = 0;
+    if (state.iterationRound !== roundNumber) return;
+    state.displayedReportRound = roundNumber;
+    state.finalReportReady = roundNumber === 3;
+    renderExperiment();
+    renderVersions();
+    qs("#roundReportOutput")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    showToast(state.finalReportReady ? "详细研究过程报告已生成" : `第 ${roundNumber} 轮研究过程报告已生成`);
+  }, 3000);
 }
 
 function renderFinalRound() {
@@ -862,10 +882,13 @@ function executeExperiment() {
   state.humanIdeas = {};
   state.qwenSuggestions = {};
   state.displayedReportRound = 0;
+  state.reportGeneratingRound = 0;
   state.resultsRevealed = {};
   state.experimentRunning = false;
   if (state.experimentTimer) window.clearTimeout(state.experimentTimer);
   state.experimentTimer = null;
+  if (state.reportTimer) window.clearTimeout(state.reportTimer);
+  state.reportTimer = null;
   renderCandidates();
   renderExperiment();
   renderLoop(5);
@@ -936,6 +959,7 @@ function exportPlan() {
 
 function resetDemo() {
   if (state.experimentTimer) window.clearTimeout(state.experimentTimer);
+  if (state.reportTimer) window.clearTimeout(state.reportTimer);
   Object.assign(state, {
     completedRound: 0,
     sessionId: null,
@@ -952,9 +976,11 @@ function resetDemo() {
     humanIdeas: {},
     qwenSuggestions: {},
     displayedReportRound: 0,
+    reportGeneratingRound: 0,
     resultsRevealed: {},
     experimentRunning: false,
     experimentTimer: null,
+    reportTimer: null,
   });
   qs("#problemInput").value = defaultValues.problem;
   qs("#evidenceInput").value = defaultValues.evidence;
