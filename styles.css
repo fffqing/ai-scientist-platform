@@ -2123,3 +2123,23 @@ textarea[readonly] {
     transition-duration: 0.01ms !important;
   }
 }
+/* Reference-matched high-contrast arrow cursor. */
+html,
+body,
+a,
+button,
+label,
+summary,
+select,
+input[type="button"],
+input[type="submit"],
+input[type="radio"],
+input[type="checkbox"] {
+  cursor: url("./assets/cursor-arrow.svg") 5 4, default !important;
+}
+
+input:not([type="button"]):not([type="submit"]):not([type="radio"]):not([type="checkbox"]),
+textarea,
+[contenteditable="true"] {
+  cursor: text !important;
+}
